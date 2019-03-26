@@ -29,6 +29,7 @@ import ru.yandex.qatools.embed.postgresql.distribution.Version;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import static java.lang.String.format;
 import static org.springframework.util.StringUtils.isEmpty;
@@ -65,15 +66,20 @@ public class EmbeddedPostgresConfiguration {
    */
   @Bean
   public PostgresConfig postgresConfig(EmbeddedPostgresProperties properties) throws IOException {
+    IVersion version = isEmpty(properties.getVersion()) ? Version.V10_6 : (IVersion) properties::getVersion;
+    String dataDir = isEmpty(properties.getDataDir()) ?
+      // default ""target/pg-{version}-data""
+      Paths.get("target", "pg-" + version.asInDownloadPath() + "-data").toString()
+      : properties.getDataDir();
     PostgresConfig postgresConfig = new PostgresConfig(
-      isEmpty(properties.getVersion()) ? Version.V10_6 : (IVersion) properties::getVersion,
+      version,
       new Net(
         isEmpty(properties.getHost()) ? "localhost" : properties.getHost(),
         properties.getPort() < 1 ? Network.getFreeServerPort() : properties.getPort()
       ),
       new Storage(
         isEmpty(properties.getDatabaseName()) ? DEFAULT_DATABASE_NAME : properties.getDatabaseName(),
-        isEmpty(properties.getDataDir()) ? DEFAULT_DATA_DIR : properties.getDataDir()
+        dataDir
       ),
       new Timeout(),
       new Credentials(
@@ -106,12 +112,12 @@ public class EmbeddedPostgresConfiguration {
             super.defaults(command);
 
             // custom extracted dir
-            logger.info("embedded-postgres extracted-dir={}", extractedDir);
+            logger.debug("embedded-postgres extracted-dir={}", extractedDir);
             this.tempDir(new FixedPath(extractedDir)); // this.tempDir().setDefault(SubdirTempDir())
 
             // custom download url
             if (!isEmpty(properties.getDownloadUrl())) {
-              logger.info("embedded-postgres download-url={}", properties.getDownloadUrl());
+              logger.debug("embedded-postgres download-url={}", properties.getDownloadUrl());
               this.download().setDefault(
                 new PostgresDownloadConfigBuilder()
                   .defaultsForCommand(command)
@@ -127,6 +133,10 @@ public class EmbeddedPostgresConfiguration {
 
     PostgresStarter<PostgresExecutable, PostgresProcess> runtime = PostgresStarter.getInstance(cfg.build());
     PostgresExecutable exec = runtime.prepare(config);
+    if (logger.isWarnEnabled())
+      logger.info("Starting embedded database: url='jdbc:postgresql://{}:{}/{}', username='{}', version={}",
+        config.net().host(), config.net().port(), config.storage().dbName(),
+        config.credentials().username(), config.version().asInDownloadPath());
     return exec.start();
   }
 }

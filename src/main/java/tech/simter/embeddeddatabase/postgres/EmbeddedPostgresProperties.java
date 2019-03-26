@@ -39,8 +39,7 @@ public class EmbeddedPostgresProperties {
   private List<String> additionalPostgresParams;
 
   public static final String DEFAULT_DATABASE_NAME = "testdb";
-  public static final String DEFAULT_USERNAME = "test";
+  public static final String DEFAULT_USERNAME = "tester";
   public static final String DEFAULT_PASSWORD = "password";
   public static final String DEFAULT_EXTRACTED_DIR = Paths.get(System.getProperty("user.home"), ".embedpostgresql", "extracted").toString();
-  public static final String DEFAULT_DATA_DIR = "target/pg-data";
 }

@@ -28,7 +28,6 @@ import static org.springframework.boot.jdbc.DataSourceInitializationMode.NEVER;
  */
 @Configuration("simterEmbeddedDatabaseConfiguration")
 @ComponentScan
-//@ConditionalOnClass(name = "de.flapdoodle.embed.process.runtime.ProcessControl")
 public class EmbeddedDatabaseConfiguration {
   private final static Logger logger = LoggerFactory.getLogger(EmbeddedDatabaseConfiguration.class);
   private final boolean concatSqlScript;
@@ -56,7 +55,7 @@ public class EmbeddedDatabaseConfiguration {
     StringBuffer sql = new StringBuffer();
     for (int i = 0; i < sqlResources.size(); i++) {
       String resourcePath = sqlResources.get(i);
-      logger.info("Load script content from {}", resourcePath);
+      logger.debug("Load script content from {}", resourcePath);
       sql.append("-- copy from ").append(resourcePath).append("\r\n\r\n")
         .append(loadSql(resourcePath, resourcePatternResolver));
       if (i < sqlResources.size() - 1) sql.append("\r\n\r\n");
@@ -65,7 +64,7 @@ public class EmbeddedDatabaseConfiguration {
     // save concatenate sql content to file
     String sqlStr = sql.toString();
     File sqlFile = new File("target/" + properties.getPlatform() + ".sql");
-    logger.info("Save concatenate SQL script to {}", sqlFile.getAbsolutePath());
+    logger.debug("Save concatenate SQL script to {}", sqlFile.getAbsolutePath());
     FileCopyUtils.copy(sqlStr.getBytes(StandardCharsets.UTF_8), sqlFile);
 
     return sqlStr;
