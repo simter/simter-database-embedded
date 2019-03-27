@@ -28,7 +28,7 @@ import java.util.List;
 public class EmbeddedPostgresProperties {
   private String downloadUrl;  // default http://get.enterprisedb.com/postgresql/
   private String version;      // default 10.6-1
-  private String username;     // default test
+  private String username;     // default tester
   private String password;     // default password
   private String databaseName; // default testdb
   private String host;         // default localhost

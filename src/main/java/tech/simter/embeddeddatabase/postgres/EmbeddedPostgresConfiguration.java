@@ -35,6 +35,9 @@ import static java.lang.String.format;
 import static org.springframework.util.StringUtils.isEmpty;
 import static tech.simter.embeddeddatabase.postgres.EmbeddedPostgresProperties.*;
 
+/**
+ * @author RJ
+ */
 @Configuration
 @ConditionalOnClass(name = "ru.yandex.qatools.embed.postgresql.EmbeddedPostgres")
 public class EmbeddedPostgresConfiguration {
@@ -62,7 +65,7 @@ public class EmbeddedPostgresConfiguration {
   }
 
   /**
-   * @return PostgresConfig that contains embedded db configuration like user name , password
+   * @return PostgresConfig that contains embedded db configuration like user name, password
    */
   @Bean
   public PostgresConfig postgresConfig(EmbeddedPostgresProperties properties) throws IOException {
@@ -112,7 +115,7 @@ public class EmbeddedPostgresConfiguration {
             super.defaults(command);
 
             // custom extracted dir
-            logger.debug("embedded-postgres extracted-dir={}", extractedDir);
+            logger.debug("embedded postgres extracted-dir={}", extractedDir);
             this.tempDir(new FixedPath(extractedDir)); // this.tempDir().setDefault(SubdirTempDir())
 
             // custom download url
@@ -133,7 +136,7 @@ public class EmbeddedPostgresConfiguration {
 
     PostgresStarter<PostgresExecutable, PostgresProcess> runtime = PostgresStarter.getInstance(cfg.build());
     PostgresExecutable exec = runtime.prepare(config);
-    if (logger.isWarnEnabled())
+    if (logger.isInfoEnabled())
       logger.info("Starting embedded database: url='jdbc:postgresql://{}:{}/{}', username='{}', version={}",
         config.net().host(), config.net().port(), config.storage().dbName(),
         config.credentials().username(), config.version().asInDownloadPath());
