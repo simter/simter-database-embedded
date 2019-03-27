@@ -25,10 +25,10 @@ public class EmbeddedMysqlProperties {
   private String password;     // default password
   private String databaseName; // default testdb
   private int port;            // default free port
-  private long timeout;        // default 10 seconds
+  private long timeout;        // default 30 seconds
 
   public static final String DEFAULT_DATABASE_NAME = "testdb";
   public static final String DEFAULT_USERNAME = "tester";
   public static final String DEFAULT_PASSWORD = "password";
-  public static final long DEFAULT_TIMEOUT = 10L;
+  public static final long DEFAULT_TIMEOUT = 30L;
 }
