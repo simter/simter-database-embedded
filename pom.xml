@@ -49,6 +49,11 @@
       <artifactId>postgresql-embedded</artifactId>
       <optional>true</optional>
     </dependency>
+    <dependency>
+      <groupId>com.wix</groupId>
+      <artifactId>wix-embedded-mysql</artifactId>
+      <optional>true</optional>
+    </dependency>
 
     <!-- test -->
     <dependency>
