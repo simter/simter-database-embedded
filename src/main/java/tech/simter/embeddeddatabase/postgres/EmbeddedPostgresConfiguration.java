@@ -65,11 +65,13 @@ public class EmbeddedPostgresConfiguration {
   }
 
   /**
+   * @param properties the specific embedded postgres config properties.
    * @return PostgresConfig that contains embedded db configuration like user name, password
+   * @throws IOException if get free port or create data dir failed
    */
   @Bean
   public PostgresConfig postgresConfig(EmbeddedPostgresProperties properties) throws IOException {
-    IVersion version = isEmpty(properties.getVersion()) ? Version.V10_6 : (IVersion) properties::getVersion;
+    IVersion version = isEmpty(properties.getVersion()) ? Version.V10_6 : properties::getVersion;
     String dataDir = isEmpty(properties.getDataDir()) ?
       // default ""target/pg-{version}-data""
       Paths.get("target", "pg-" + version.asInDownloadPath() + "-data").toString()
@@ -101,6 +103,7 @@ public class EmbeddedPostgresConfiguration {
    * @param config     the PostgresConfig configuration to use to start Postgres db process
    * @param properties the properties configuration
    * @return the started db process
+   * @throws IOException if start postgres failed
    */
   @Bean(destroyMethod = "stop")
   public PostgresProcess postgresProcess(PostgresConfig config, EmbeddedPostgresProperties properties) throws IOException {
@@ -116,7 +119,7 @@ public class EmbeddedPostgresConfiguration {
 
             // custom extracted dir
             logger.debug("embedded postgres extracted-dir={}", extractedDir);
-            this.tempDir(new FixedPath(extractedDir)); // this.tempDir().setDefault(SubdirTempDir())
+            this.tempDir(new FixedPath(extractedDir));
 
             // custom download url
             if (!isEmpty(properties.getDownloadUrl())) {

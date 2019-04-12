@@ -41,7 +41,8 @@ public class EmbeddedMysqlConfiguration {
   }
 
   /**
-   * @param config the MysqldConfig configuration which will be used to get the needed host, port..
+   * @param config     the MysqldConfig configuration which will be used to get the needed host, port.
+   * @param properties the specific embedded mysql config properties.
    * @return the created DB datasource
    */
   @Bean
@@ -62,7 +63,9 @@ public class EmbeddedMysqlConfiguration {
   }
 
   /**
+   * @param properties the specific embedded mysql config properties.
    * @return MysqldConfig that contains embedded db configuration like user name, password
+   * @throws IOException if get free port failed
    */
   @Bean
   public MysqldConfig msqldConfig(EmbeddedMysqlProperties properties) throws IOException {
