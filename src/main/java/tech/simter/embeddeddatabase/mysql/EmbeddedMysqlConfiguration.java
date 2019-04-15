@@ -127,8 +127,8 @@ public class EmbeddedMysqlConfiguration {
     String dbName = isEmpty(properties.getDatabaseName()) ? DEFAULT_DATABASE_NAME : properties.getDatabaseName();
     EmbeddedMysql.Builder mysqld = anEmbeddedMysql(config, downloadConfigBuilder.build())
       .addSchema(SchemaConfig.aSchemaConfig(dbName).build());
-    if (logger.isInfoEnabled())
-      logger.info("Starting embedded database: url='jdbc:mysql://{}:{}/{}', username='{}', version={}.{}",
+    if (logger.isWarnEnabled())
+      logger.warn("Starting embedded database: url='jdbc:mysql://{}:{}/{}', username='{}', version={}.{}",
         "localhost", config.getPort(), dbName, config.getUsername(),
         config.getVersion().getMajorVersion(), config.getVersion().getMinorVersion());
 
