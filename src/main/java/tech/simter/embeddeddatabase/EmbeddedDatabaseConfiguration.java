@@ -31,7 +31,7 @@ public class EmbeddedDatabaseConfiguration {
   private final boolean concatSqlScript;
 
   @Autowired
-  public EmbeddedDatabaseConfiguration(@Value("${simter.embedded-database.concat-sql-script:false}") boolean concatSqlScript) {
+  public EmbeddedDatabaseConfiguration(@Value("${spring.datasource.concat-sql-script:false}") boolean concatSqlScript) {
     this.concatSqlScript = concatSqlScript;
   }
 
