@@ -12,7 +12,6 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.util.FileCopyUtils;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -36,10 +35,6 @@ public class EmbeddedDatabaseConfiguration {
     this.concatSqlScript = concatSqlScript;
   }
 
-  @PostConstruct
-  public void init() {
-  }
-
   @Bean("simterConcatSqlScript")
   public String concatSqlScript(DataSourceProperties properties) throws IOException {
     if (!concatSqlScript || properties.getInitializationMode() == null || properties.getInitializationMode() == NEVER)
@@ -54,7 +49,7 @@ public class EmbeddedDatabaseConfiguration {
     StringBuffer sql = new StringBuffer();
     for (int i = 0; i < sqlResources.size(); i++) {
       String resourcePath = sqlResources.get(i);
-      logger.debug("Load script content from {}", resourcePath);
+      logger.info("Load script from {}", resourcePath);
       sql.append("-- copy from ").append(resourcePath).append("\r\n\r\n")
         .append(loadSql(resourcePath, resourcePatternResolver));
       if (i < sqlResources.size() - 1) sql.append("\r\n\r\n");
@@ -63,7 +58,7 @@ public class EmbeddedDatabaseConfiguration {
     // save concatenate sql content to file
     String sqlStr = sql.toString();
     File sqlFile = new File("target/" + properties.getPlatform() + ".sql");
-    logger.debug("Save concatenate SQL script to {}", sqlFile.getAbsolutePath());
+    logger.info("Save concatenate SQL script to {}", sqlFile.getAbsolutePath());
     FileCopyUtils.copy(sqlStr.getBytes(StandardCharsets.UTF_8), sqlFile);
 
     return sqlStr;
