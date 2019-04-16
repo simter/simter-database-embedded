@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +27,7 @@ import static org.springframework.boot.jdbc.DataSourceInitializationMode.NEVER;
  */
 @Configuration("simterEmbeddedDatabaseConfiguration")
 @ComponentScan
+@EnableConfigurationProperties(DataSourceProperties.class)
 public class EmbeddedDatabaseConfiguration {
   private final static Logger logger = LoggerFactory.getLogger(EmbeddedDatabaseConfiguration.class);
   private final boolean concatSqlScript;
