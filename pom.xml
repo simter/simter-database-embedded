@@ -8,7 +8,7 @@
     <relativePath/>
   </parent>
   <artifactId>simter-embedded-database-ext</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0-M1</version>
   <packaging>jar</packaging>
   <name>simter-embedded-database-ext</name>
   <description>Auto embedded database extension for spring-boot unit test base on dependency class</description>
