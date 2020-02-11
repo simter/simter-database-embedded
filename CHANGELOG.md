@@ -1,5 +1,10 @@
 # simter-embedded-database-ext changelog
 
+## 1.1.0-M3 2020-02-11
+
+- Remove lombok
+- Upgrade to simter-dependencies-1.3.0-M13
+
 ## 1.1.0-M2 2019-12-10
 
 - Upgrade to simter-dependencies-1.3.0-M9
