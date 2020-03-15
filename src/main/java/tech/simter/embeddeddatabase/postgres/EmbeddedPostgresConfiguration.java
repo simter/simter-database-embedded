@@ -75,7 +75,7 @@ public class EmbeddedPostgresConfiguration {
       version,
       new Net(
         isEmpty(properties.getHost()) ? "localhost" : properties.getHost(),
-        properties.getPort() < 1 ? Network.getFreeServerPort() : properties.getPort()
+        properties.getPort() == null || properties.getPort() < 1 ? Network.getFreeServerPort() : properties.getPort()
       ),
       new Storage(
         isEmpty(properties.getDatabaseName()) ? DEFAULT_DATABASE_NAME : properties.getDatabaseName(),

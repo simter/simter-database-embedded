@@ -80,7 +80,7 @@ public class EmbeddedMysqlConfiguration {
       .withTempDir("target/mysql/");
 
     // custom port
-    if (properties.getPort() > 0) configBuilder.withPort(properties.getPort());
+    if (properties.getPort() != null && properties.getPort() > 0) configBuilder.withPort(properties.getPort());
     else configBuilder.withFreePort();
 
     // custom username, password
